@@ -14,9 +14,8 @@ export default function History({ navigation }) {
         try {
             const existingHistory = await AsyncStorage.getItem('@dictHistory')
             setSearchHistory(JSON.parse(existingHistory))
-            console.log(existingHistory)
         } catch (e) {
-            alert("Something went wrong!")
+            // something went wrong!
         }
     }
 
@@ -25,7 +24,7 @@ export default function History({ navigation }) {
             await AsyncStorage.clear()
             setSearchHistory([])
         } catch (e) {
-            alert("Something went wrong!")
+            // something went wrong!
         }
     }
 

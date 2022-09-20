@@ -1,5 +1,5 @@
 import {
-    ScrollView, View, Text, Pressable, TextInput, FlatList, ActivityIndicator, Button,
+    ScrollView, View, Text, TouchableOpacity, TextInput, ActivityIndicator, Button,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -28,11 +28,11 @@ export default function Home({ route }) {
 
     const storeToHistory = async (value) => {
         const existingHistory = await AsyncStorage.getItem("@dictHistory");
-        let newHistory = JSON.parse(existingHistory);
-        if (!newHistory) {
-            newHistory = [];
-            newHistory.push(value);
-            await AsyncStorage.setItem("@dictHistory", JSON.stringify(newHistory))
+        let historyContainer = JSON.parse(existingHistory);
+        if (!historyContainer) {
+            historyContainer = [];
+            historyContainer.push(value);
+            await AsyncStorage.setItem("@dictHistory", JSON.stringify(historyContainer))
                 .then(() => {
                     // successful
                 })
@@ -40,8 +40,14 @@ export default function Home({ route }) {
                     setMessage(error.message);
                 });
         } else {
-            newHistory.push(value);
-            await AsyncStorage.setItem("@dictHistory", JSON.stringify(newHistory))
+            for (let i = 0; i < historyContainer.length; i++) {
+                if (historyContainer[i] == value) {
+                    historyContainer.splice(historyContainer.indexOf(historyContainer[i]), 1);
+                    break
+                }
+            }
+            historyContainer.push(value);
+            await AsyncStorage.setItem("@dictHistory", JSON.stringify(historyContainer))
                 .then(() => {
                     // successful
                 })
@@ -52,7 +58,8 @@ export default function Home({ route }) {
     };
 
     const fetchWord = async (wordToSearch) => {
-        if (!wordToSearch) return;
+        console.log("the word", wordToSearch)
+        if (!wordToSearch) return "";
         let data = { def: [], syn: [], ant: [], errorMessage: "", suggestion: "" };
 
         await axios({
@@ -104,8 +111,7 @@ export default function Home({ route }) {
         resetView();
         setLoading(true)
         let response = await fetchWord(value);
-        if (response == null) {
-            setMessage("There seem to be a problem")
+        if (response == "") {
             setLoading(false)
             return
         }
@@ -168,33 +174,22 @@ export default function Home({ route }) {
                         }}
                     />
                 </View>
-                {loading && <ActivityIndicator size="large" />}
+                {loading && <ActivityIndicator sizew="large" />}
                 {definitions?.length > 0 ? (
-                    <View
-                        style={{
-                            flex: 1,
-                            alignItems: "flex-start",
-                            justifyContent: "center",
-                        }}
-                    >
+                    <View>
                         <Text style={tw`text-2xl font-extrabold px-5 text-gray-500`}>
                             {search}
                         </Text>
-                        <Pressable style={({ pressed }) => [{ margin: 3, paddingLeft: 20, borderRadius: 10, backgroundColor: pressed ? 'tomato' : '' }]} onPress={speak}>
+                        <TouchableOpacity onPress={speak} style={{ margin: 3, paddingLeft: 20, borderRadius: 10 }}>
                             <AntDesign name="sound" size={50} color="black" />
-                        </Pressable>
-                        <View >
-                            <Definitions definitions={definitions} />
-                        </View>
+                        </TouchableOpacity>
+                        <Definitions definitions={definitions} />
                     </View>
                 ) : null}
 
                 {synonyms.length ? (
                     <View style={tw`px-5 mb-3`}>
                         <Text style={tw`text-2xl font-bold mb-3`}>Synonyms</Text>
-                        {synonyms.slice(0, 1).map(item => {
-
-                        })}
                         <Synonyms loadResult={loadResult}
                             synonyms={synonyms.slice(0, 1)}
                         />
