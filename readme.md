@@ -1,6 +1,6 @@
 ## About
 
-This is an online dictionary built using React Native and Expo CLI
+This is an online dictionary with images results built using React Native and Expo CLI.
 
 ## Technologies
 
