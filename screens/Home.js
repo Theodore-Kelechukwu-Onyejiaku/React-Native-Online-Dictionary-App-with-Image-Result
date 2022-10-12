@@ -13,7 +13,7 @@ import Definitions from "../components/Definitions";
 import Synonyms from "../components/Synonyms";
 import Antonyms from "../components/Antonyms";
 
-import { OXFORD_API_KEY } from "@env";
+import { OXFORD_API_KEY, PIXABAY_API_KEY } from "@env";
 import Images from "../components/Images";
 
 export default function Home({ route }) {
@@ -64,7 +64,7 @@ export default function Home({ route }) {
 
         await axios({
             method: "get",
-            url: "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/" + wordToSearch + "?key=" + OXFORD_API_KEY,
+            url: `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordToSearch}?key=${OXFORD_API_KEY}`,
         }).then((response) => {
             if (typeof response["data"][0] == "string") {
                 data.suggestion = `WORD NOT FOUND. Perhaps you can try the following:\n${response.data.toString()}`
@@ -90,7 +90,7 @@ export default function Home({ route }) {
     const fetchImages = async (imageName) => {
         await axios({
             method: "get",
-            url: "https://pixabay.com/api/?key=13326226-147b461ff5fa43fe6b2061876&q=" + imageName,
+            url: `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=imageName`,
         }).then((results) => {
             setImages(results.data.hits)
         }).catch((error) => {
