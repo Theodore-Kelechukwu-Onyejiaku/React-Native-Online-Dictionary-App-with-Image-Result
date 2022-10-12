@@ -6,7 +6,7 @@ import tw from "twrnc"
 export default function About({ navigation }) {
   return (
     <View>
-      <Text style={tw`my-10 text-center p-5 text-3xl`}>
+      <Text style={tw`my-10 text-center p-5 text-lg`}>
         Online Dictionary is an application built using React Native, Pixabay API, Merriam Webster Dictionary and Expo Go.
       </Text>
       <TouchableOpacity onPress={() => { navigation.navigate("Home") }} style={tw`p-4 border w-2/5 m-auto `}>

@@ -58,7 +58,6 @@ export default function Home({ route }) {
     };
 
     const fetchWord = async (wordToSearch) => {
-        console.log("the word", wordToSearch)
         if (!wordToSearch) return "";
         let data = { def: [], syn: [], ant: [], errorMessage: "", suggestion: "" };
 
@@ -90,7 +89,7 @@ export default function Home({ route }) {
     const fetchImages = async (imageName) => {
         await axios({
             method: "get",
-            url: `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=imageName`,
+            url: `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${imageName}`,
         }).then((results) => {
             setImages(results.data.hits)
         }).catch((error) => {

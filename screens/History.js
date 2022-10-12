@@ -49,10 +49,10 @@ export default function History({ navigation }) {
             </View>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                 <TouchableOpacity onPress={() => { navigation.navigate("Home") }}>
-                    <AntDesign name="back" size={24} color="black" style={tw`bg-black text-white text-center m-3  p-5 rounded-md`} />
+                    <AntDesign name="back" size={30} color="black" style={tw`text-black text-center m-3  p-5 rounded-md`} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { clearHistory() }}>
-                    <AntDesign name="delete" size={24} color="black" style={tw`bg-red-600 text-white text-center m-3 p-5 rounded-md `} />
+                    <AntDesign name="delete" size={30} color="black" style={tw`text-red-300 text-center m-3 p-5 rounded-md `} />
                 </TouchableOpacity>
             </View>
         </ScrollView>
